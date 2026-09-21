@@ -285,6 +285,90 @@ a { color: inherit; text-decoration: none; }
 .footer-note { font-size: .78rem; line-height: 2; color: var(--muted); }
 
 /* =========================================================
+   NEWSLETTER MODAL
+   ========================================================= */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+.modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+.modal[hidden] { display: none; }
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(44,39,34,.55);
+  backdrop-filter: blur(3px);
+  animation: fadeIn .4s ease both;
+}
+.modal-card {
+  position: relative; z-index: 1;
+  width: min(430px, 100%);
+  max-height: calc(100svh - 3rem); overflow-y: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--clay);
+  border-radius: 2px;
+  padding: clamp(2rem, 5vw, 2.8rem);
+  text-align: center;
+  box-shadow: 0 30px 60px -30px rgba(44,39,34,.45);
+  animation: modalIn .5s cubic-bezier(.2,.7,.3,1) both;
+}
+.modal-card:focus { outline: none; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modalIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.modal-close {
+  position: absolute; top: .7rem; right: .7rem;
+  width: 38px; height: 38px; display: grid; place-items: center;
+  background: none; border: 0; border-radius: 50%; cursor: pointer;
+  color: var(--muted); transition: color .25s, background .25s;
+}
+.modal-close svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.modal-close:hover { color: var(--clay); background: var(--paper-2); }
+.modal-close:focus-visible { outline: 1px solid var(--clay); outline-offset: 2px; }
+
+.modal-ill { width: 104px; height: auto; margin: 0 auto 1.4rem; }
+.modal .kicker { margin-bottom: .7rem; }
+.modal-title {
+  font-family: var(--serif); font-weight: 600; font-size: 1.5rem;
+  color: var(--ink); letter-spacing: .08em; line-height: 1.6; margin-bottom: 1rem;
+}
+.modal-text { font-size: .93rem; line-height: 1.95; color: var(--ink-2); margin-bottom: 1.7rem; }
+
+.modal-form { display: flex; flex-direction: column; gap: .7rem; }
+.modal-form input {
+  font-family: var(--sans); font-size: .95rem; color: var(--ink);
+  background: var(--paper-2); border: 1px solid var(--line); border-radius: 2px;
+  padding: .85rem 1rem; text-align: center; letter-spacing: .04em;
+  transition: border-color .25s, background .25s;
+}
+.modal-form input::placeholder { color: var(--muted); }
+.modal-form input:focus { outline: none; border-color: var(--clay); background: var(--paper); }
+.btn-submit {
+  font-family: var(--sans); font-size: .92rem; font-weight: 500; letter-spacing: .14em;
+  color: var(--paper); background: var(--clay);
+  border: 1px solid var(--clay); border-radius: 2px;
+  padding: .85rem 1rem; cursor: pointer;
+  transition: background .25s, border-color .25s;
+}
+.btn-submit:hover { background: var(--clay-2); border-color: var(--clay-2); }
+.btn-submit:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+.modal-msg { min-height: 1.4em; margin-top: .9rem; font-size: .84rem; line-height: 1.7; color: var(--clay-2); }
+.modal-msg.ok { color: var(--olive); }
+.modal-fine { margin-top: 1rem; font-size: .74rem; letter-spacing: .04em; color: var(--muted); }
+
+@media (max-width: 560px) {
+  .modal { padding: 1rem; }
+  .modal-title { font-size: 1.32rem; }
+  .modal-ill { width: 86px; }
+}
+
+/* =========================================================
    SCROLL REVEAL
    Content is visible by default; it is hidden for the fade-in only when
    scripting is available (html.js), so a script failure can never leave
@@ -329,4 +413,5 @@ a { color: inherit; text-decoration: none; }
   html { scroll-behavior: auto; }
   * { animation-duration: .001s !important; animation-iteration-count: 1 !important; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
+  .modal-card, .modal-backdrop { animation: none; }
 }

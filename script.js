@@ -57,6 +57,79 @@
   revealInView();
   window.addEventListener("load", revealInView);
 
+  /* ---------- Newsletter modal ----------
+     Opens immediately on load. Closes with the × button, the backdrop or Esc. */
+  const modal = document.getElementById("newsletter");
+  if (modal) {
+    const card = modal.querySelector(".modal-card");
+    const form = document.getElementById("nlForm");
+    const email = document.getElementById("nlEmail");
+    const msg = document.getElementById("nlMsg");
+    let lastFocus = null;
+
+    const focusable = () =>
+      card.querySelectorAll("button, input, a[href]");
+
+    const openModal = () => {
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+      // Focus the dialog itself, so screen readers announce it without
+      // putting a focus ring on the close button for mouse users.
+      card.focus();
+    };
+
+    const closeModal = () => {
+      modal.hidden = true;
+      document.body.style.overflow = "";
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    modal.querySelectorAll("[data-close]").forEach((el) =>
+      el.addEventListener("click", closeModal)
+    );
+    document.getElementById("nlClose").addEventListener("click", closeModal);
+
+    document.addEventListener("keydown", (e) => {
+      if (modal.hidden) return;
+      if (e.key === "Escape") { closeModal(); return; }
+      // Keep keyboard focus inside the dialog while it is open.
+      if (e.key === "Tab") {
+        const items = focusable();
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        }
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      const value = email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        e.preventDefault();
+        msg.className = "modal-msg";
+        msg.textContent = "メールアドレスをご確認ください。";
+        email.focus();
+        return;
+      }
+      // No provider configured yet: say so plainly rather than showing a
+      // confirmation for a registration that did not happen.
+      if (!form.getAttribute("action")) {
+        e.preventDefault();
+        msg.className = "modal-msg";
+        msg.textContent = "ただいま登録の受付を準備しております。恐れ入りますが、しばらくお待ちください。";
+        return;
+      }
+      // Otherwise the form posts to the newsletter provider normally.
+    });
+
+    openModal();
+  }
+
   /* ---------- Highlight the section currently being read ---------- */
   const navAnchors = Array.from(links.querySelectorAll("a[href^='#']"));
   const sections = navAnchors

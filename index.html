@@ -528,6 +528,47 @@
   </div>
 </footer>
 
+<!-- ============ NEWSLETTER MODAL ============ -->
+<div class="modal" id="newsletter" role="dialog" aria-modal="true" aria-labelledby="nlTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+
+  <div class="modal-card" role="document" tabindex="-1">
+    <button type="button" class="modal-close" id="nlClose" aria-label="閉じる">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6 L18 18 M18 6 L6 18" />
+      </svg>
+    </button>
+
+    <svg class="modal-ill" viewBox="0 0 140 84" aria-hidden="true">
+      <rect x="26" y="24" width="88" height="56" rx="2" class="s-line"/>
+      <path d="M26 24 L70 58 L114 24" class="s-line"/>
+      <path d="M26 80 L58 50 M114 80 L82 50" class="s-line-thin"/>
+      <circle cx="70" cy="12" r="5" class="s-accent"/>
+      <path d="M52 10 L60 10 M80 10 L88 10" class="s-line-thin"/>
+    </svg>
+
+    <p class="kicker">NEWSLETTER</p>
+    <h2 class="modal-title" id="nlTitle">たよりを受け取る</h2>
+    <p class="modal-text">
+      稽古場での日々、旅先で出会った人びと、若い演者たちの成長。
+      松本達彦の近況を、月に一度、短い手紙にしてお届けします。
+    </p>
+
+    <!-- To make this live: put your newsletter provider's form URL in `action`
+         (Mailchimp, Buttondown, ConvertKit …). Until then the form does not
+         pretend to have registered anyone. -->
+    <form class="modal-form" id="nlForm" action="" method="post" novalidate>
+      <label class="sr-only" for="nlEmail">メールアドレス</label>
+      <input type="email" id="nlEmail" name="email" placeholder="you@example.com"
+             autocomplete="email" required />
+      <button type="submit" class="btn-submit">登録する</button>
+    </form>
+
+    <p class="modal-msg" id="nlMsg" role="status"></p>
+    <p class="modal-fine">配信は月に一度程度です。いつでも配信を停止できます。</p>
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 </body>
